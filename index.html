@@ -1,0 +1,69 @@
+<div style="font-family: Arial, sans-serif; max-width: 700px; margin: 20px auto;">
+
+  <h2>💧 Mass Balance Interactive Learning Activity</h2>
+
+  <!-- PART 1: Learn -->
+  <h3>🔍 Step 1: Learn the Basics</h3>
+  <button onclick="document.getElementById('learnContent').style.display='block'" style="padding: 5px 10px;">Show Mass Balance Concepts</button>
+  <div id="learnContent" style="display:none; margin-top:10px;">
+    <p><strong>Mass Balance Equation:</strong></p>
+    <pre>Input - Output + Generation - Consumption = Accumulation</pre>
+    <ul>
+      <li><strong>Input:</strong> Mass entering the system</li>
+      <li><strong>Output:</strong> Mass leaving the system</li>
+      <li><strong>Generation:</strong> Mass created inside the system (e.g., chemical reactions)</li>
+      <li><strong>Consumption:</strong> Mass used up or destroyed inside the system</li>
+      <li><strong>Accumulation:</strong> Mass buildup inside the system over time</li>
+    </ul>
+  </div>
+
+  <!-- PART 2: Guided Practice -->
+  <h3>✅ Step 2: Practice with Example Questions</h3>
+
+  <p>Question: If 200 kg/day of a pollutant enters a system and 50 kg/day leaves, with no reactions happening, what is the accumulation?</p>
+  <button onclick="checkPractice('A')">A. 150 kg/day</button>
+  <button onclick="checkPractice('B')">B. 250 kg/day</button>
+  <button onclick="checkPractice('C')">C. -50 kg/day</button>
+  <p id="practiceFeedback" style="font-weight:bold; margin-top:10px;"></p>
+
+  <!-- PART 3: Apply -->
+  <h3>🛠️ Step 3: Apply to a New Problem</h3>
+  <p>A lake receives <strong>1000 kg/day</strong> of nitrogen pollution from upstream. It releases <strong>800 kg/day</strong> downstream. There is no reaction. What is the accumulation rate of nitrogen in the lake (kg/day)?</p>
+
+  <input type="number" id="applyInput" placeholder="Your answer" style="padding:5px;">
+  <button onclick="checkApply()" style="padding: 5px 10px;">Submit</button>
+  <p id="applyFeedback" style="font-weight: bold; margin-top: 10px;"></p>
+
+</div>
+
+<script>
+// Practice question logic
+function checkPractice(answer) {
+  const feedback = document.getElementById('practiceFeedback');
+  if (answer === 'A') {
+    feedback.textContent = "✅ Correct! Accumulation = Input - Output = 200 - 50 = 150 kg/day.";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "❌ Incorrect. Try again!";
+    feedback.style.color = "red";
+  }
+}
+
+// Apply question logic
+function checkApply() {
+  const userAnswer = parseFloat(document.getElementById('applyInput').value);
+  const correctAnswer = 1000 - 800; // 200 kg/day
+  const feedback = document.getElementById('applyFeedback');
+
+  if (isNaN(userAnswer)) {
+    feedback.textContent = "Please enter a number.";
+    feedback.style.color = "orange";
+  } else if (Math.abs(userAnswer - correctAnswer) <= 1) {
+    feedback.textContent = "✅ Correct! The accumulation is 200 kg/day.";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "❌ Incorrect. Think about Input - Output.";
+    feedback.style.color = "red";
+  }
+}
+</script>
