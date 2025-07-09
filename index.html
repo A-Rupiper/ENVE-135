@@ -1,47 +1,83 @@
-<div style="font-family: Arial, sans-serif; max-width: 700px; margin: 20px auto;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mass Balance Interactive Learning Activity</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 700px; margin: 20px auto; }
+  button { padding: 5px 10px; margin-top: 5px; }
+</style>
+</head>
+<body>
 
-  <h2>💧 Mass Balance Interactive Learning Activity</h2>
+<h2>💧 Mass Balance Interactive Learning Activity</h2>
 
-  <!-- PART 1: Learn -->
-  <h3>🔍 Step 1: Learn the Basics</h3>
-  <button onclick="document.getElementById('learnContent').style.display='block'" style="padding: 5px 10px;">Show Mass Balance Concepts</button>
-  <div id="learnContent" style="display:none; margin-top:10px;">
-    <p><strong>Mass Balance Equation:</strong></p>
-    <pre>Input - Output + Generation - Consumption = Accumulation</pre>
-    <ul>
-      <li><strong>Input:</strong> Mass entering the system</li>
-      <li><strong>Output:</strong> Mass leaving the system</li>
-      <li><strong>Generation:</strong> Mass created inside the system (e.g., chemical reactions)</li>
-      <li><strong>Consumption:</strong> Mass used up or destroyed inside the system</li>
-      <li><strong>Accumulation:</strong> Mass buildup inside the system over time</li>
-    </ul>
-  </div>
-
-  <!-- PART 2: Guided Practice -->
-  <h3>✅ Step 2: Practice with Example Questions</h3>
-
-  <p>Question: If 200 kg/day of a pollutant enters a system and 50 kg/day leaves, with no reactions happening, what is the accumulation?</p>
-  <button onclick="checkPractice('A')">A. 150 kg/day</button>
-  <button onclick="checkPractice('B')">B. 250 kg/day</button>
-  <button onclick="checkPractice('C')">C. -50 kg/day</button>
-  <p id="practiceFeedback" style="font-weight:bold; margin-top:10px;"></p>
-
-  <!-- PART 3: Apply -->
-  <h3>🛠️ Step 3: Apply to a New Problem</h3>
-  <p>A lake receives <strong>1000 kg/day</strong> of nitrogen pollution from upstream. It releases <strong>800 kg/day</strong> downstream. There is no reaction. What is the accumulation rate of nitrogen in the lake (kg/day)?</p>
-
-  <input type="number" id="applyInput" placeholder="Your answer" style="padding:5px;">
-  <button onclick="checkApply()" style="padding: 5px 10px;">Submit</button>
-  <p id="applyFeedback" style="font-weight: bold; margin-top: 10px;"></p>
-
+<!-- PART 1: Learn -->
+<h3>🔍 Step 1: Learn the Basics</h3>
+<button onclick="document.getElementById('learnContent').style.display='block'">Show Mass Balance Concepts</button>
+<div id="learnContent" style="display:none; margin-top:10px;">
+  <p><strong>Mass Balance Equation:</strong></p>
+  <pre>Input - Output + Generation - Consumption = Accumulation</pre>
+  <ul>
+    <li><strong>Input/Output:</strong> Mass flow rate (kg/day)</li>
+    <li><strong>Generation:</strong> Mass created inside the system</li>
+    <li><strong>Consumption:</strong> Mass consumed/decayed</li>
+    <li><strong>Accumulation:</strong> Mass build-up in the system</li>
+  </ul>
 </div>
 
+<!-- PART 2: Practice -->
+<h3>✅ Step 2: Practice with Example Questions</h3>
+<div id="practice-questions"></div>
+<p id="practiceFeedback" style="font-weight:bold; margin-top:10px;"></p>
+
+<!-- PART 3: New Concepts -->
+<h3>📘 Step 3: Flow, Concentration & Decay</h3>
+<button onclick="document.getElementById('flowDecay').style.display='block'">Show Flow & Decay Concepts</button>
+<div id="flowDecay" style="display:none; margin-top:10px;">
+  <p><strong>Flow and concentration:</strong></p>
+  <ul>
+    <li><strong>Mass flow rate</strong> = Flow rate (m³/day) × Concentration (mg/L)</li>
+    <li>Convert mg/day to kg/day by dividing by 1,000,000</li>
+    <li>Example: 10 m³/day × 50 mg/L = 500,000 mg/day = 0.5 kg/day</li>
+  </ul>
+  <p><strong>First-order decay:</strong></p>
+  <ul>
+    <li>Consumption = k × Mass present</li>
+    <li>Example: 100 kg with decay rate k = 0.1/day → 10 kg/day consumed</li>
+  </ul>
+</div>
+
+<!-- PART 4: Apply -->
+<h3>🛠️ Step 4: Apply to a New Problem</h3>
+<p>A tank receives an inflow of <strong>20 m³/day</strong> with a pollutant concentration of <strong>30 mg/L</strong>. Outflow is <strong>15 m³/day</strong> with a pollutant concentration of <strong>20 mg/L</strong>. The pollutant decays inside the tank with a decay rate of <strong>0.05/day</strong> and the tank contains <strong>500 kg</strong> of pollutant. What is the accumulation (kg/day)?</p>
+
+<input type="number" id="applyInput" placeholder="Your answer (kg/day)" style="padding:5px;">
+<button onclick="checkApply()">Submit</button>
+<button onclick="resetApply()">Reset</button>
+<p id="applyFeedback" style="font-weight: bold; margin-top: 10px;"></p>
+
 <script>
-// Practice question logic
-function checkPractice(answer) {
+// --- PRACTICE QUESTIONS ---
+const practiceQuestions = [
+  { question: "Input 200 kg/day, Output 50 kg/day, no generation/consumption. Accumulation?", options: ["150 kg/day", "250 kg/day", "-50 kg/day"], correct: "150 kg/day" },
+  { question: "Input 300 kg/day, Output 100 kg/day, Generation 50 kg/day. Accumulation?", options: ["250 kg/day", "150 kg/day", "200 kg/day"], correct: "250 kg/day" },
+  { question: "Input 400 kg/day, Output 150 kg/day, Consumption 100 kg/day. Accumulation?", options: ["250 kg/day", "150 kg/day", "350 kg/day"], correct: "150 kg/day" },
+  { question: "Input 500 kg/day, Output 200 kg/day, Generation 100 kg/day, Consumption 50 kg/day. Accumulation?", options: ["350 kg/day", "400 kg/day", "250 kg/day"], correct: "350 kg/day" }
+];
+
+const container = document.getElementById('practice-questions');
+practiceQuestions.forEach((q, index) => {
+  const questionBlock = document.createElement('div');
+  questionBlock.innerHTML = `<p><strong>Question ${index + 1}:</strong> ${q.question}</p>` +
+    q.options.map(opt => `<button onclick="checkPractice('${opt}','${q.correct}')">${opt}</button>`).join(" ");
+  container.appendChild(questionBlock);
+});
+
+function checkPractice(answer, correct) {
   const feedback = document.getElementById('practiceFeedback');
-  if (answer === 'A') {
-    feedback.textContent = "✅ Correct! Accumulation = Input - Output = 200 - 50 = 150 kg/day.";
+  if (answer === correct) {
+    feedback.textContent = `✅ Correct! The accumulation is ${correct}.`;
     feedback.style.color = "green";
   } else {
     feedback.textContent = "❌ Incorrect. Try again!";
@@ -49,21 +85,39 @@ function checkPractice(answer) {
   }
 }
 
-// Apply question logic
+// --- APPLICATION QUESTION WITH FLOW AND DECAY ---
 function checkApply() {
   const userAnswer = parseFloat(document.getElementById('applyInput').value);
-  const correctAnswer = 1000 - 800; // 200 kg/day
+
+  // Calculate input and output in kg/day
+  const inputFlow = 20 * 30 * 1000 / 1_000_000; // 20 m3/day * 30 mg/L * 1000 (L/m3) / 1,000,000 mg/kg
+  const outputFlow = 15 * 20 * 1000 / 1_000_000;
+
+  const decayRate = 0.05;
+  const massPresent = 500;
+  const consumption = decayRate * massPresent;
+
+  const accumulation = inputFlow - outputFlow - consumption;
+
   const feedback = document.getElementById('applyFeedback');
 
   if (isNaN(userAnswer)) {
     feedback.textContent = "Please enter a number.";
     feedback.style.color = "orange";
-  } else if (Math.abs(userAnswer - correctAnswer) <= 1) {
-    feedback.textContent = "✅ Correct! The accumulation is 200 kg/day.";
+  } else if (Math.abs(userAnswer - accumulation) <= 1) {
+    feedback.textContent = `✅ Correct! The accumulation is approximately ${accumulation.toFixed(2)} kg/day.`;
     feedback.style.color = "green";
   } else {
-    feedback.textContent = "❌ Incorrect. Think about Input - Output.";
+    feedback.textContent = "❌ Incorrect. Double-check your flow and decay calculations.";
     feedback.style.color = "red";
   }
 }
+
+function resetApply() {
+  document.getElementById('applyInput').value = '';
+  document.getElementById('applyFeedback').textContent = '';
+}
 </script>
+
+</body>
+</html>
